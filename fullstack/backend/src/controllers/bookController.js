@@ -40,5 +40,10 @@ export const getBooks = async (req, res) => {
 
 export const getBooksById = async (req, res) => {
   try {
-  } catch (error) {}
+    const id = req.params.id;
+    const book = await Book.find(id);
+    res.status(200).json(book);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
