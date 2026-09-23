@@ -38,11 +38,31 @@ export const getBooks = async (req, res) => {
   }
 };
 
-export const getBooksById = async (req, res) => {
+export const getBookById = async (req, res) => {
   try {
-    const id = req.params.id;
-    const book = await Book.find(id);
+    const book = await Book.findById(req.params.id);
+    //Book Mongoose Model-ийн findById() method-ийг ашиглаад, өгөгдсөн ID-тай номын document-ийг MongoDB-ээс хайж олно.
     res.status(200).json(book);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const updateBook = async (req, res) => {
+  try {
+    const updatedBook = await Book.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+    res.status(200).json(updatedBook);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const deleteBook = async (req, res) => {
+  try {
+    const deletedBook = await Book.findByIdAndDelete(req.params.id);
+    res.status(200).json(deletedBook);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
